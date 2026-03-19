@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🔥 Amazon Deals — DealsHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Nunito',sans-serif;overflow-x:hidden}
+body{background:linear-gradient(135deg,#FF4500 0%,#FF6B00 30%,#FF8C00 55%,#1A6EFF 80%,#7C3AED 100%);background-size:400% 400%;animation:bgMove 8s ease infinite;min-height:100vh;position:relative}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.35;pointer-events:none;z-index:0}
+.b1{width:500px;height:500px;background:#FF2D87;top:-100px;right:-100px;animation:blobFloat 10s ease-in-out infinite}
+.b2{width:400px;height:400px;background:#FFD600;bottom:-80px;left:-80px;animation:blobFloat 12s ease-in-out infinite reverse}
+.b3{width:300px;height:300px;background:#00C875;top:40%;left:50%;animation:blobFloat 9s ease-in-out infinite 3s}
+@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.1)}}
+body::before{content:'';position:fixed;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1}
+
+.wrap{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center}
+
+.top-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,.4);border-radius:30px;padding:7px 20px;font-size:13px;font-weight:800;color:#fff;margin-bottom:1.6rem;animation:fadeDown .6s ease both;text-decoration:none;transition:.2s}
+.top-badge:hover{background:rgba(255,255,255,.32);transform:scale(1.04)}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+.pulse-dot{width:8px;height:8px;background:#FFD600;border-radius:50%;animation:pulse 1.4s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.6);opacity:.6}}
+
+.headline{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3rem,9vw,6.5rem);font-weight:900;line-height:.95;color:#fff;text-transform:uppercase;margin-bottom:1rem;animation:fadeUp .7s ease .1s both;text-shadow:0 4px 30px rgba(0,0,0,.3)}
+.hl-yellow{color:#FFD600;display:block;text-shadow:0 0 40px rgba(255,214,0,.5)}
+.hl-white{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+.subline{font-size:clamp(16px,2.5vw,20px);font-weight:700;color:rgba(255,255,255,.9);max-width:580px;line-height:1.45;margin-bottom:2rem;animation:fadeUp .7s ease .2s both}
+.subline span{color:#FFD600;font-weight:900}
+
+.products-strip{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:2.2rem;animation:fadeUp .7s ease .3s both}
+.prod-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.18);backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,.35);border-radius:50px;padding:8px 16px;color:#fff;font-size:13px;font-weight:800;transition:.2s;text-decoration:none}
+.prod-chip:hover{background:rgba(255,255,255,.32);transform:scale(1.06);border-color:rgba(255,255,255,.6)}
+
+.urgency-bar{background:rgba(255,45,135,.85);backdrop-filter:blur(10px);border:1.5px solid rgba(255,100,165,.5);border-radius:30px;padding:8px 22px;font-size:13px;font-weight:800;color:#fff;margin-bottom:2rem;animation:fadeUp .7s ease .35s both;display:flex;align-items:center;gap:10px}
+#countdown{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:#FFD600;min-width:60px;text-align:center}
+
+.cta-wrap{animation:fadeUp .7s ease .4s both;margin-bottom:1.4rem}
+.cta-btn{display:inline-flex;align-items:center;gap:12px;background:linear-gradient(135deg,#FFD600 0%,#FF8C00 100%);color:#1A0A00;padding:18px 44px;border-radius:60px;font-family:'Barlow Condensed',sans-serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:900;text-transform:uppercase;letter-spacing:1px;text-decoration:none;border:none;cursor:pointer;box-shadow:0 8px 32px rgba(255,140,0,.6);transition:.2s;animation:ctaPulse 2.5s ease-in-out infinite 1s;position:relative;overflow:hidden}
+.cta-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25),transparent);border-radius:60px}
+.cta-btn:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 48px rgba(255,140,0,.75)}
+@keyframes ctaPulse{0%,100%{box-shadow:0 8px 32px rgba(255,140,0,.6),0 0 0 0 rgba(255,214,0,.4)}70%{box-shadow:0 8px 32px rgba(255,140,0,.6),0 0 0 22px rgba(255,214,0,0)}}
+.cta-arrow{font-size:1.6rem}
+
+.sec-cta{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:2.2rem;animation:fadeUp .7s ease .5s both}
+.sec-cta a{color:#FFD600;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+
+.trust-row{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin-bottom:2.4rem;animation:fadeUp .7s ease .55s both}
+.trust-badge{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:800;color:#fff}
+
+.cards-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;max-width:920px;animation:fadeUp .7s ease .6s both}
+.mini-card{background:rgba(255,255,255,.15);backdrop-filter:blur(16px);border:1.5px solid rgba(255,255,255,.35);border-radius:18px;padding:1rem 1.1rem;width:185px;text-align:left;transition:.25s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.mini-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#FFD600,#FF8C00)}
+.mini-card:hover{background:rgba(255,255,255,.26);transform:translateY(-7px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+.mc-emoji{font-size:34px;display:block;margin-bottom:8px}
+.mc-title{font-size:12px;font-weight:800;color:#fff;margin-bottom:5px;line-height:1.3;flex:1}
+.mc-cat{font-size:10px;color:rgba(255,255,255,.55);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.mc-price{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:#FFD600}
+.mc-stars{font-size:11px;color:#FFD600;margin-bottom:10px}
+.mc-btn{display:block;width:100%;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.45);color:#fff;border-radius:8px;padding:7px 6px;font-size:11px;font-weight:800;font-family:'Nunito',sans-serif;text-align:center;text-decoration:none;transition:.2s;margin-top:auto}
+.mc-btn:hover{background:rgba(255,255,255,.38);border-color:#FFD600;color:#FFD600}
+
+.disclaimer{font-size:10.5px;color:rgba(255,255,255,.42);max-width:580px;line-height:1.55;animation:fadeUp .7s ease .7s both;margin-top:1.8rem}
+
+@media(max-width:640px){.mini-card{width:calc(50% - 6px)}.cta-btn{padding:15px 28px}.cards-row{gap:8px}}
+@media(max-width:380px){.mini-card{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<div class="wrap">
+
+  <!-- TOP BADGE — Amazon Prime Deals -->
+  <a href="https://amzn.to/3N9inEw" target="_blank" rel="noopener sponsored" class="top-badge">
+    <span class="pulse-dot"></span>
+    ⚡ Amazon Prime Deals — Shop Exclusive Offers →
+  </a>
+
+  <!-- HEADLINE -->
+  <h1 class="headline">
+    <span class="hl-white">Save up to</span>
+    <span class="hl-yellow">60% OFF</span>
+    <span class="hl-white">on Amazon</span>
+  </h1>
+
+  <!-- SUBLINE -->
+  <p class="subline">
+    The best-selling products with the <span>top-rated reviews</span> on the market.<br>
+    Prices verified today — No extra cost to you.
+  </p>
+
+  <!-- CATEGORY CHIPS -->
+  <div class="products-strip">
+    <a href="https://amzn.to/4dukgGm" target="_blank" rel="noopener sponsored" class="prod-chip">🎧 Headphones</a>
+    <a href="https://amzn.to/40EQcQU" target="_blank" rel="noopener sponsored" class="prod-chip">📱 Smartphones</a>
+    <a href="https://amzn.to/4sjHUdl"  target="_blank" rel="noopener sponsored" class="prod-chip">🏠 Home &amp; Kitchen</a>
+    <a href="https://amzn.to/4uS8M5Y" target="_blank" rel="noopener sponsored" class="prod-chip">👟 Sneakers</a>
+    <a href="https://amzn.to/3PhdtWy" target="_blank" rel="noopener sponsored" class="prod-chip">✨ Beauty</a>
+    <a href="https://amzn.to/4rBuHLB" target="_blank" rel="noopener sponsored" class="prod-chip">💡 Tech &amp; Gadgets</a>
+  </div>
+
+  <!-- URGENCY COUNTDOWN -->
+  <div class="urgency-bar">
+    ⚡ Deals expire in: <span id="countdown">10:00</span>
+  </div>
+
+  <!-- MAIN CTA -->
+  <div class="cta-wrap">
+    <a href="https://www.amazon.com/?tag=amazon000de-20" target="_blank" rel="noopener sponsored" class="cta-btn">
+      🛒 Shop All Deals Now <span class="cta-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- SECONDARY LINK -->
+  <p class="sec-cta">
+    Looking for something specific? <a href="https://www.amazon.com/?tag=amazon000de-20" target="_blank" rel="noopener sponsored">Browse the full Amazon catalog →</a>
+  </p>
+
+  <!-- TRUST BADGES -->
+  <div class="trust-row">
+    <div class="trust-badge">✅ Prime Shipping</div>
+    <div class="trust-badge">🔒 100% Secure Checkout</div>
+    <div class="trust-badge">⭐ Millions of Reviews</div>
+    <div class="trust-badge">🔄 Easy Returns</div>
+  </div>
+
+  <!-- MINI PRODUCT CARDS -->
+  <div class="cards-row">
+
+    <div class="mini-card">
+      <span class="mc-emoji">🎧</span>
+      <div class="mc-cat">Headphones</div>
+      <div class="mc-title">Top noise-cancelling headphones at unbeatable prices</div>
+      <div class="mc-stars">★★★★★</div>
+      <div class="mc-price">Check price →</div>
+      <br>
+      <a href="https://amzn.to/4dukgGm" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+    </div>
+
+    <div class="mini-card">
+      <span class="mc-emoji">📱</span>
+      <div class="mc-cat">Smartphones</div>
+      <div class="mc-title">Unlocked smartphones with the best deals available</div>
+      <div class="mc-stars">★★★★★</div>
+      <div class="mc-price">Check price →</div>
+      <br>
+      <a href="https://amzn.to/40EQcQU" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+    </div>
+
+    <div class="mini-card">
+      <span class="mc-emoji">🏠</span>
+      <div class="mc-cat">Home &amp; Kitchen</div>
+      <div class="mc-title">Everything for your home and kitchen at great prices</div>
+      <div class="mc-stars">★★★★☆</div>
+      <div class="mc-price">Check price →</div>
+      <br>
+      <a href="https://amzn.to/4sjHUdl" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+    </div>
+
+    <div class="mini-card">
+      <span class="mc-emoji">👟</span>
+      <div class="mc-cat">Sneakers</div>
+      <div class="mc-title">The most popular sneakers on sale right now</div>
+      <div class="mc-stars">★★★★★</div>
+      <div class="mc-price">Check price →</div>
+      <br>
+      <a href="https://amzn.to/4uS8M5Y" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+    </div>
+
+    <div class="mini-card">
+      <span class="mc-emoji">✨</span>
+      <div class="mc-cat">Beauty</div>
+      <div class="mc-title">Top-rated beauty and personal care products</div>
+      <div class="mc-stars">★★★★★</div>
+      <div class="mc-price">Check price →</div>
+      <br>
+      <a href="https://amzn.to/3PhdtWy" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+    </div>
+
+    <div class="mini-card">
+      <span class="mc-emoji">💡</span>
+      <div class="mc-cat">Tech &amp; Gadgets</div>
+      <div class="mc-title">The hottest gadgets and tech trending right now</div>
+      <div class="mc-stars">★★★★★</div>
+      <div class="mc-price">Check price →</div>
+      <br>
+      <a href="https://amzn.to/4rBuHLB" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+    </div>
+
+  </div>
+
+  <!-- DISCLAIMER -->
+  <p class="disclaimer">
+    As an Amazon Associate (amazon000de-20), this site earns commissions from qualifying purchases through affiliate links. This is at no additional cost to you. All prices and availability are subject to change without notice.
+  </p>
+
+</div>
+
+<script>
+let t = 10 * 60;
+const cd = document.getElementById('countdown');
+function tick(){
+  if(t <= 0){ t = 10 * 60; }
+  const m = String(Math.floor(t / 60)).padStart(2,'0');
+  const s = String(t % 60).padStart(2,'0');
+  cd.textContent = m + ':' + s;
+  t--;
+}
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
