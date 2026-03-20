@@ -17,7 +17,48 @@ body{background:linear-gradient(135deg,#FF4500 0%,#FF6B00 30%,#FF8C00 55%,#1A6EF
 @keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.1)}}
 body::before{content:'';position:fixed;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:1}
 
-.wrap{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1.5rem;text-align:center}
+/* ── LIVE STATS BAR (top) ── */
+.live-bar{position:fixed;top:0;left:0;right:0;z-index:300;background:rgba(0,0,0,.55);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.12);padding:7px 20px;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap}
+.live-stat{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:rgba(255,255,255,.9)}
+.live-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ld-green{background:#00E676;animation:livePulse 1.2s ease-in-out infinite}
+.ld-yellow{background:#FFD600}
+.ld-blue{background:#40C4FF}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+.live-num{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;color:#FFD600}
+.live-divider{width:1px;height:20px;background:rgba(255,255,255,.2)}
+
+/* ── VISITOR TICKER (bottom-left) ── */
+.visitor-ticker{position:fixed;bottom:20px;left:20px;z-index:300;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.vtick{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.72);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:30px;padding:7px 14px;font-size:12px;font-weight:700;color:#fff;animation:tickIn .4s ease both;white-space:nowrap;max-width:260px}
+@keyframes tickIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tickOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-20px)}}
+.vtick-flag{font-size:16px;line-height:1}
+.vtick-dot{width:6px;height:6px;background:#00E676;border-radius:50%;animation:livePulse 1.2s ease-in-out infinite;flex-shrink:0}
+
+/* ── STATS PANEL (bottom-right, toggle) ── */
+.stats-toggle{position:fixed;bottom:20px;right:20px;z-index:300;background:rgba(0,0,0,.7);backdrop-filter:blur(14px);border:1.5px solid rgba(255,214,0,.4);border-radius:14px;overflow:hidden;min-width:200px}
+.stats-toggle-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;user-select:none}
+.stats-toggle-header span{font-size:12px;font-weight:800;color:#FFD600;display:flex;align-items:center;gap:6px}
+.stats-chevron{font-size:10px;color:rgba(255,255,255,.5);transition:transform .3s}
+.stats-chevron.open{transform:rotate(180deg)}
+.stats-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.stats-body.open{max-height:300px}
+.stats-inner-pad{padding:0 14px 12px}
+.stat-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:11px}
+.stat-row:last-child{border-bottom:none}
+.stat-label{color:rgba(255,255,255,.55);font-weight:700}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;color:#fff}
+.stat-val.green{color:#00E676}
+.stat-val.yellow{color:#FFD600}
+.top-countries{margin-top:8px}
+.tc-label{font-size:10px;font-weight:800;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.tc-row{display:flex;align-items:center;justify-content:space-between;padding:3px 0;font-size:11px;color:rgba(255,255,255,.8);font-weight:700}
+.tc-bar-wrap{width:70px;height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.tc-bar{height:100%;background:linear-gradient(90deg,#FFD600,#FF8C00);border-radius:4px;transition:width .6s ease}
+
+/* ── MAIN WRAP ── */
+.wrap{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5rem 1.5rem 2rem;text-align:center}
 
 .top-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.2);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,.4);border-radius:30px;padding:7px 20px;font-size:13px;font-weight:800;color:#fff;margin-bottom:1.6rem;animation:fadeDown .6s ease both;text-decoration:none;transition:.2s}
 .top-badge:hover{background:rgba(255,255,255,.32);transform:scale(1.04)}
@@ -67,7 +108,13 @@ body::before{content:'';position:fixed;inset:0;opacity:.04;background-image:url(
 
 .disclaimer{font-size:10.5px;color:rgba(255,255,255,.42);max-width:580px;line-height:1.55;animation:fadeUp .7s ease .7s both;margin-top:1.8rem}
 
-@media(max-width:640px){.mini-card{width:calc(50% - 6px)}.cta-btn{padding:15px 28px}.cards-row{gap:8px}}
+@media(max-width:640px){
+  .mini-card{width:calc(50% - 6px)}.cta-btn{padding:15px 28px}.cards-row{gap:8px}
+  .live-bar{gap:14px;padding:6px 10px}
+  .live-divider{display:none}
+  .stats-toggle{right:10px;bottom:10px;min-width:180px}
+  .visitor-ticker{left:10px;bottom:10px}
+}
 @media(max-width:380px){.mini-card{width:100%}}
 </style>
 </head>
@@ -77,28 +124,94 @@ body::before{content:'';position:fixed;inset:0;opacity:.04;background-image:url(
 <div class="blob b2"></div>
 <div class="blob b3"></div>
 
+<!-- ══════════════════════════════════════
+     LIVE STATS BAR — top fixed
+════════════════════════════════════════ -->
+<div class="live-bar">
+  <div class="live-stat">
+    <span class="live-dot ld-green"></span>
+    <span id="bar-online" class="live-num">0</span> online now
+  </div>
+  <div class="live-divider"></div>
+  <div class="live-stat">
+    <span class="live-dot ld-yellow"></span>
+    <span id="bar-today" class="live-num">0</span> visitors today
+  </div>
+  <div class="live-divider"></div>
+  <div class="live-stat">
+    <span class="live-dot ld-blue"></span>
+    <span id="bar-total" class="live-num">0</span> total visits
+  </div>
+  <div class="live-divider"></div>
+  <div class="live-stat">
+    ⏱ Avg time: <span id="bar-avgtime" class="live-num" style="margin-left:4px">0s</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     VISITOR NOTIFICATION TICKER
+════════════════════════════════════════ -->
+<div class="visitor-ticker" id="ticker"></div>
+
+<!-- ══════════════════════════════════════
+     STATS PANEL — bottom right
+════════════════════════════════════════ -->
+<div class="stats-toggle">
+  <div class="stats-toggle-header" onclick="toggleStats()">
+    <span>📊 Live Stats</span>
+    <span class="stats-chevron" id="chevron">▼</span>
+  </div>
+  <div class="stats-body" id="statsBody">
+    <div class="stats-inner-pad">
+      <div class="stat-row">
+        <span class="stat-label">🟢 Online now</span>
+        <span class="stat-val green" id="sp-online">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">👁 Today</span>
+        <span class="stat-val yellow" id="sp-today">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">📈 Total visits</span>
+        <span class="stat-val" id="sp-total">0</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">⏱ Avg time</span>
+        <span class="stat-val" id="sp-avg">0s</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">🖱 Clicks today</span>
+        <span class="stat-val" id="sp-clicks">0</span>
+      </div>
+      <div class="top-countries">
+        <div class="tc-label">Top Locations</div>
+        <div id="tc-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
 <div class="wrap">
 
-  <!-- TOP BADGE — Amazon Prime Deals -->
   <a href="https://amzn.to/3N9inEw" target="_blank" rel="noopener sponsored" class="top-badge">
     <span class="pulse-dot"></span>
     ⚡ Amazon Prime Deals — Shop Exclusive Offers →
   </a>
 
-  <!-- HEADLINE -->
   <h1 class="headline">
     <span class="hl-white">Save up to</span>
     <span class="hl-yellow">60% OFF</span>
     <span class="hl-white">on Amazon</span>
   </h1>
 
-  <!-- SUBLINE -->
   <p class="subline">
     The best-selling products with the <span>top-rated reviews</span> on the market.<br>
     Prices verified today — No extra cost to you.
   </p>
 
-  <!-- CATEGORY CHIPS -->
   <div class="products-strip">
     <a href="https://amzn.to/4dukgGm" target="_blank" rel="noopener sponsored" class="prod-chip">🎧 Headphones</a>
     <a href="https://amzn.to/40EQcQU" target="_blank" rel="noopener sponsored" class="prod-chip">📱 Smartphones</a>
@@ -108,24 +221,20 @@ body::before{content:'';position:fixed;inset:0;opacity:.04;background-image:url(
     <a href="https://amzn.to/4rBuHLB" target="_blank" rel="noopener sponsored" class="prod-chip">💡 Tech &amp; Gadgets</a>
   </div>
 
-  <!-- URGENCY COUNTDOWN -->
   <div class="urgency-bar">
     ⚡ Deals expire in: <span id="countdown">10:00</span>
   </div>
 
-  <!-- MAIN CTA -->
   <div class="cta-wrap">
-    <a href="https://www.amazon.com/?tag=amazon000de-20" target="_blank" rel="noopener sponsored" class="cta-btn">
+    <a href="https://www.amazon.com/?tag=amazon000de-20" target="_blank" rel="noopener sponsored" class="cta-btn" data-track="main-cta">
       🛒 Shop All Deals Now <span class="cta-arrow">→</span>
     </a>
   </div>
 
-  <!-- SECONDARY LINK -->
   <p class="sec-cta">
-    Looking for something specific? <a href="https://www.amazon.com/?tag=amazon000de-20" target="_blank" rel="noopener sponsored">Browse the full Amazon catalog →</a>
+    Looking for something specific? <a href="https://www.amazon.com/?tag=amazon000de-20" target="_blank" rel="noopener sponsored" data-track="secondary">Browse the full Amazon catalog →</a>
   </p>
 
-  <!-- TRUST BADGES -->
   <div class="trust-row">
     <div class="trust-badge">✅ Prime Shipping</div>
     <div class="trust-badge">🔒 100% Secure Checkout</div>
@@ -133,90 +242,303 @@ body::before{content:'';position:fixed;inset:0;opacity:.04;background-image:url(
     <div class="trust-badge">🔄 Easy Returns</div>
   </div>
 
-  <!-- MINI PRODUCT CARDS -->
   <div class="cards-row">
-
     <div class="mini-card">
       <span class="mc-emoji">🎧</span>
       <div class="mc-cat">Headphones</div>
       <div class="mc-title">Top noise-cancelling headphones at unbeatable prices</div>
       <div class="mc-stars">★★★★★</div>
-      <div class="mc-price">Check price →</div>
-      <br>
-      <a href="https://amzn.to/4dukgGm" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+      <div class="mc-price">Check price →</div><br>
+      <a href="https://amzn.to/4dukgGm" target="_blank" rel="noopener sponsored" class="mc-btn" data-track="card">Buy on Amazon</a>
     </div>
-
     <div class="mini-card">
       <span class="mc-emoji">📱</span>
       <div class="mc-cat">Smartphones</div>
       <div class="mc-title">Unlocked smartphones with the best deals available</div>
       <div class="mc-stars">★★★★★</div>
-      <div class="mc-price">Check price →</div>
-      <br>
-      <a href="https://amzn.to/40EQcQU" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+      <div class="mc-price">Check price →</div><br>
+      <a href="https://amzn.to/40EQcQU" target="_blank" rel="noopener sponsored" class="mc-btn" data-track="card">Buy on Amazon</a>
     </div>
-
     <div class="mini-card">
       <span class="mc-emoji">🏠</span>
       <div class="mc-cat">Home &amp; Kitchen</div>
       <div class="mc-title">Everything for your home and kitchen at great prices</div>
       <div class="mc-stars">★★★★☆</div>
-      <div class="mc-price">Check price →</div>
-      <br>
-      <a href="https://amzn.to/4sjHUdl" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+      <div class="mc-price">Check price →</div><br>
+      <a href="https://amzn.to/4sjHUdl" target="_blank" rel="noopener sponsored" class="mc-btn" data-track="card">Buy on Amazon</a>
     </div>
-
     <div class="mini-card">
       <span class="mc-emoji">👟</span>
       <div class="mc-cat">Sneakers</div>
       <div class="mc-title">The most popular sneakers on sale right now</div>
       <div class="mc-stars">★★★★★</div>
-      <div class="mc-price">Check price →</div>
-      <br>
-      <a href="https://amzn.to/4uS8M5Y" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+      <div class="mc-price">Check price →</div><br>
+      <a href="https://amzn.to/4uS8M5Y" target="_blank" rel="noopener sponsored" class="mc-btn" data-track="card">Buy on Amazon</a>
     </div>
-
     <div class="mini-card">
       <span class="mc-emoji">✨</span>
       <div class="mc-cat">Beauty</div>
       <div class="mc-title">Top-rated beauty and personal care products</div>
       <div class="mc-stars">★★★★★</div>
-      <div class="mc-price">Check price →</div>
-      <br>
-      <a href="https://amzn.to/3PhdtWy" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+      <div class="mc-price">Check price →</div><br>
+      <a href="https://amzn.to/3PhdtWy" target="_blank" rel="noopener sponsored" class="mc-btn" data-track="card">Buy on Amazon</a>
     </div>
-
     <div class="mini-card">
       <span class="mc-emoji">💡</span>
       <div class="mc-cat">Tech &amp; Gadgets</div>
       <div class="mc-title">The hottest gadgets and tech trending right now</div>
       <div class="mc-stars">★★★★★</div>
-      <div class="mc-price">Check price →</div>
-      <br>
-      <a href="https://amzn.to/4rBuHLB" target="_blank" rel="noopener sponsored" class="mc-btn">Buy on Amazon</a>
+      <div class="mc-price">Check price →</div><br>
+      <a href="https://amzn.to/4rBuHLB" target="_blank" rel="noopener sponsored" class="mc-btn" data-track="card">Buy on Amazon</a>
     </div>
-
   </div>
 
-  <!-- DISCLAIMER -->
   <p class="disclaimer">
     As an Amazon Associate (amazon000de-20), this site earns commissions from qualifying purchases through affiliate links. This is at no additional cost to you. All prices and availability are subject to change without notice.
   </p>
-
 </div>
 
+<!-- ══════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
 <script>
+// ─── STORAGE HELPERS ───────────────────────────────────────────
+const S = {
+  get(k){ try{ return JSON.parse(localStorage.getItem(k)) }catch(e){ return null } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)) }catch(e){} }
+};
+
+// ─── SESSION SETUP ─────────────────────────────────────────────
+const SESSION_KEY = 'dh_session';
+const STATS_KEY   = 'dh_stats';
+const TODAY_KEY   = 'dh_today';
+const sessionStart = Date.now();
+const today = new Date().toDateString();
+
+// Load / init persistent stats
+let stats = S.get(STATS_KEY) || { total:0, clicks:0, sessions:[], countries:{} };
+let todayData = S.get(TODAY_KEY) || { date:'', count:0 };
+if(todayData.date !== today){ todayData = { date: today, count: 0 }; }
+
+// Count this visit
+stats.total++;
+todayData.count++;
+
+// ─── GEO DETECTION (free, no key needed) ───────────────────────
+const GEO_COUNTRIES = {
+  'US':'🇺🇸 United States','MX':'🇲🇽 Mexico','CA':'🇨🇦 Canada',
+  'GB':'🇬🇧 United Kingdom','DE':'🇩🇪 Germany','FR':'🇫🇷 France',
+  'BR':'🇧🇷 Brazil','AR':'🇦🇷 Argentina','ES':'🇪🇸 Spain',
+  'AU':'🇦🇺 Australia','IN':'🇮🇳 India','IT':'🇮🇹 Italy',
+  'JP':'🇯🇵 Japan','NL':'🇳🇱 Netherlands','PL':'🇵🇱 Poland',
+  'CO':'🇨🇴 Colombia','CL':'🇨🇱 Chile','PE':'🇵🇪 Peru'
+};
+
+let detectedCountry = '🌍 Unknown';
+let detectedCity    = '';
+let countryCode     = 'XX';
+
+fetch('https://ipapi.co/json/')
+  .then(r => r.json())
+  .then(d => {
+    countryCode     = d.country_code || 'XX';
+    const flag      = GEO_COUNTRIES[countryCode] || ('🌍 ' + (d.country_name || 'Unknown'));
+    detectedCountry = flag;
+    detectedCity    = d.city || '';
+    // Store in country stats
+    stats.countries[countryCode] = (stats.countries[countryCode] || 0) + 1;
+    S.set(STATS_KEY, stats);
+    updateTopCountries();
+    // Show welcome ticker
+    spawnTicker(detectedCity ? `${flag} — ${detectedCity}` : flag, true);
+  })
+  .catch(() => {
+    // Fallback: use timezone offset to guess region
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if(tz.includes('America/Mexico')) detectedCountry = '🇲🇽 Mexico';
+    else if(tz.startsWith('America')) detectedCountry = '🌎 Americas';
+    else if(tz.startsWith('Europe')) detectedCountry = '🌍 Europe';
+    else if(tz.startsWith('Asia'))   detectedCountry = '🌏 Asia';
+    spawnTicker(detectedCountry, true);
+  });
+
+// ─── SESSION RECORD ────────────────────────────────────────────
+const session = {
+  id: Math.random().toString(36).slice(2,9),
+  start: sessionStart,
+  country: countryCode,
+  city: detectedCity,
+  clicks: 0,
+  duration: 0
+};
+stats.sessions.push(session);
+// Keep only last 200 sessions
+if(stats.sessions.length > 200) stats.sessions = stats.sessions.slice(-200);
+S.set(STATS_KEY, stats);
+S.set(TODAY_KEY, todayData);
+
+// ─── SIMULATE ONLINE USERS (realistic fluctuation) ─────────────
+// Base: seeded from total visits so it grows naturally with the site
+function getOnlineCount(){
+  const base = Math.max(3, Math.floor(Math.log(stats.total + 10) * 3));
+  const jitter = Math.floor(Math.sin(Date.now()/7000)*2 + Math.cos(Date.now()/11000)*1.5);
+  return Math.max(1, base + jitter + Math.floor(Math.random()*3));
+}
+let onlineNow = getOnlineCount();
+
+// ─── AVG TIME CALC ─────────────────────────────────────────────
+function calcAvgTime(){
+  const s = stats.sessions.filter(s => s.duration > 0);
+  if(!s.length) return 0;
+  return Math.round(s.reduce((a,b)=>a+b.duration,0)/s.length);
+}
+function fmtTime(sec){
+  if(sec < 60) return sec + 's';
+  return Math.floor(sec/60)+'m '+( sec%60)+'s';
+}
+
+// ─── UPDATE UI ─────────────────────────────────────────────────
+function updateUI(){
+  onlineNow = getOnlineCount();
+  const avg = calcAvgTime();
+  const todayV = todayData.count;
+  const clicks = stats.clicks;
+
+  // top bar
+  document.getElementById('bar-online').textContent  = onlineNow;
+  document.getElementById('bar-today').textContent   = todayV;
+  document.getElementById('bar-total').textContent   = stats.total;
+  document.getElementById('bar-avgtime').textContent = fmtTime(avg);
+
+  // stats panel
+  document.getElementById('sp-online').textContent = onlineNow;
+  document.getElementById('sp-today').textContent  = todayV;
+  document.getElementById('sp-total').textContent  = stats.total;
+  document.getElementById('sp-avg').textContent    = fmtTime(avg);
+  document.getElementById('sp-clicks').textContent = clicks;
+}
+
+function updateTopCountries(){
+  const c = stats.countries;
+  const sorted = Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  const max = sorted[0]?.[1] || 1;
+  const list = document.getElementById('tc-list');
+  if(!list) return;
+  list.innerHTML = sorted.map(([code, count])=>{
+    const label = GEO_COUNTRIES[code] || ('🌍 '+code);
+    const pct = Math.round((count/max)*100);
+    return `<div class="tc-row">
+      <span style="font-size:13px">${label.split(' ')[0]}</span>
+      <span style="font-size:10px;color:rgba(255,255,255,.55)">${label.split(' ').slice(1).join(' ')}</span>
+      <div class="tc-bar-wrap"><div class="tc-bar" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ─── VISITOR TICKER ────────────────────────────────────────────
+const TICKER_VISITORS = [
+  {flag:'🇺🇸', loc:'New York, US'},  {flag:'🇲🇽', loc:'Mexico City, MX'},
+  {flag:'🇬🇧', loc:'London, UK'},    {flag:'🇨🇦', loc:'Toronto, CA'},
+  {flag:'🇩🇪', loc:'Berlin, DE'},    {flag:'🇧🇷', loc:'São Paulo, BR'},
+  {flag:'🇦🇺', loc:'Sydney, AU'},    {flag:'🇪🇸', loc:'Madrid, ES'},
+  {flag:'🇫🇷', loc:'Paris, FR'},     {flag:'🇮🇳', loc:'Mumbai, IN'},
+  {flag:'🇯🇵', loc:'Tokyo, JP'},     {flag:'🇨🇴', loc:'Bogotá, CO'},
+  {flag:'🇦🇷', loc:'Buenos Aires, AR'},{flag:'🇳🇱', loc:'Amsterdam, NL'},
+  {flag:'🇮🇹', loc:'Rome, IT'},      {flag:'🇵🇱', loc:'Warsaw, PL'}
+];
+const ACTIONS = [
+  'just visited','is browsing deals','clicked a deal',
+  'checking prices','is shopping now','just arrived'
+];
+
+let tickerQueue = [];
+const MAX_TICKS = 3;
+
+function spawnTicker(label, isReal=false){
+  const ticker = document.getElementById('ticker');
+  const el = document.createElement('div');
+  el.className = 'vtick';
+  const action = isReal ? 'just joined' : ACTIONS[Math.floor(Math.random()*ACTIONS.length)];
+  el.innerHTML = `<span class="vtick-flag">${label.split(' ')[0]}</span>
+    <span style="flex:1;overflow:hidden;text-overflow:ellipsis">
+      <strong>${label.split(' ').slice(1).join(' ')||label}</strong> ${action}
+    </span>
+    <span class="vtick-dot"></span>`;
+  ticker.appendChild(el);
+  tickerQueue.push(el);
+  if(tickerQueue.length > MAX_TICKS){
+    const old = tickerQueue.shift();
+    old.style.animation = 'tickOut .3s ease forwards';
+    setTimeout(()=>old.remove(), 320);
+  }
+  setTimeout(()=>{
+    el.style.animation = 'tickOut .3s ease forwards';
+    setTimeout(()=>{ el.remove(); tickerQueue = tickerQueue.filter(x=>x!==el); }, 320);
+  }, 5000);
+}
+
+function randomTicker(){
+  const v = TICKER_VISITORS[Math.floor(Math.random()*TICKER_VISITORS.length)];
+  spawnTicker(v.flag+' '+v.loc);
+}
+
+// ─── CLICK TRACKING ────────────────────────────────────────────
+document.querySelectorAll('[data-track]').forEach(el => {
+  el.addEventListener('click', ()=>{
+    stats.clicks++;
+    session.clicks++;
+    S.set(STATS_KEY, stats);
+    updateUI();
+  });
+});
+
+// ─── DURATION TRACKING ─────────────────────────────────────────
+function saveDuration(){
+  const dur = Math.round((Date.now() - sessionStart) / 1000);
+  session.duration = dur;
+  // update in sessions array
+  const idx = stats.sessions.findIndex(s=>s.id===session.id);
+  if(idx>=0) stats.sessions[idx].duration = dur;
+  S.set(STATS_KEY, stats);
+}
+window.addEventListener('beforeunload', saveDuration);
+setInterval(saveDuration, 10000); // save every 10s
+
+// ─── STATS PANEL TOGGLE ────────────────────────────────────────
+function toggleStats(){
+  const body = document.getElementById('statsBody');
+  const chev = document.getElementById('chevron');
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+// Open by default
+document.getElementById('statsBody').classList.add('open');
+document.getElementById('chevron').classList.add('open');
+
+// ─── COUNTDOWN ─────────────────────────────────────────────────
 let t = 10 * 60;
 const cd = document.getElementById('countdown');
 function tick(){
-  if(t <= 0){ t = 10 * 60; }
-  const m = String(Math.floor(t / 60)).padStart(2,'0');
-  const s = String(t % 60).padStart(2,'0');
-  cd.textContent = m + ':' + s;
+  if(t<=0){t=10*60}
+  cd.textContent = String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');
   t--;
 }
 tick();
 setInterval(tick, 1000);
+
+// ─── INIT & INTERVALS ──────────────────────────────────────────
+updateUI();
+updateTopCountries();
+
+// Update stats every 5s
+setInterval(()=>{ updateUI(); }, 5000);
+
+// Random ticker every 8–18 seconds
+function schedTicker(){
+  randomTicker();
+  setTimeout(schedTicker, 8000 + Math.random()*10000);
+}
+setTimeout(schedTicker, 3000);
 </script>
 </body>
 </html>
